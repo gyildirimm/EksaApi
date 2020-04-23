@@ -25,6 +25,7 @@ namespace webTry.Models
             catch (Exception){throw;}      
             return model;
         }
+
         public Boolean Login(string identity , string pass)
         {
             Boolean login = false;  
@@ -93,6 +94,7 @@ namespace webTry.Models
             }
             catch (Exception ex) { return false; }
         }
+
         public string getToken(String identity)
         {
             string token = "";  
@@ -116,6 +118,7 @@ namespace webTry.Models
             return token;
 
         }
+
         public void Logout(string token)
         {
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["EksaContext"].ToString()))
@@ -131,6 +134,7 @@ namespace webTry.Models
                 catch (Exception ex) { }
             }
         }
+
         public Boolean controlUser(string identity , string mail)
         {
             Boolean dolu = false;
@@ -159,6 +163,7 @@ namespace webTry.Models
             catch (Exception ex) { }
             return dolu;
         }
+
         public void AddUser(User User)
         {
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["EksaContext"].ToString()))
@@ -200,6 +205,7 @@ namespace webTry.Models
                 catch (Exception ex) { }
             }
         }
+
         public void active(string identity , string pass)
         {
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["EksaContext"].ToString()))
@@ -215,6 +221,26 @@ namespace webTry.Models
                 }
                 catch (Exception ex) { }
             }
+        }
+
+        public Boolean controlToken(string token)
+        {
+            Boolean girdi = false;
+            IEnumerable<Models.Login> model;
+            using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["EksaContext"].ToString()))
+            {
+                try
+                {
+                    var query = "SELECT * FROM Login WHERE token=@token";
+                    var variables = new DynamicParameters();
+                    variables.Add("@token", token);
+                    model = sqlConnection.Query<Models.Login>(query , variables);
+                    if(model.Count() > 0) { girdi = true; } else { girdi = false; }
+                    sqlConnection.Close();
+                }
+                catch (Exception ex) { }
+            }
+            return girdi;
         }
 
     }

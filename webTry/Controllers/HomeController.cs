@@ -77,6 +77,16 @@ namespace webTry.Controllers
         }
 
         [AcceptVerbs("GET", "POST")]
+        public void addUser(User user)
+        {
+            Boolean dolu = dapperClass.controlUser(user.userIdentityNumber, user.userEmail);
+            if (!dolu)
+            {
+                dapperClass.AddUser(user);
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
         public void Logout(string token)
         {
             dapperClass.Logout(token);
@@ -92,6 +102,12 @@ namespace webTry.Controllers
         public void activeAccount(string identity , string pass)
         {
             dapperClass.active(identity, pass);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        public Boolean controlLogin(string token)
+        {
+            return dapperClass.controlToken(token);
         }
         // DELETE api/values/5
         public void Delete(int id)
