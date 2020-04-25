@@ -42,7 +42,7 @@ namespace webTry.Controllers
                 }  
             }else
             {
-                token = "başarısız";
+                token = "";
             }
             return token;
         }
